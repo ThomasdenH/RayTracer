@@ -10,8 +10,6 @@ class Plane: public Object
 
         virtual Hit intersect(Ray const &ray);
 
-        virtual TextureCoordinate (Point const &point);
-
         Point const position;
         Vector const normal;
 };

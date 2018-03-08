@@ -13,8 +13,6 @@ class Model: public Object
 
         virtual Hit intersect(Ray const &ray);
 
-        virtual TextureCoordinate (Point const &point);
-
         std::vector<Triangle> triangles;
 };
 

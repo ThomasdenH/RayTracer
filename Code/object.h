@@ -21,8 +21,6 @@ class Object
 
         virtual Hit intersect(Ray const &ray) = 0;  // must be implemented
                                                     // in derived class
-
-        virtual TextureCoordinate (Point const &point) = TextureCoordinate(0.0, 0.0);
 };
 
 #endif

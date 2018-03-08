@@ -49,12 +49,6 @@ Hit Sphere::intersect(Ray const &ray)
     return Hit(t,N);
 }
 
-TextureCoordinate getTexCoord(Point const &point) {
-    double theta = acos((point->z - position->z) / radius);
-    double phi = atan2((point->y - position->y, point->x - position->x));
-    return TextureCoordinate(phi / 2.0 * M_PI, (M_PI - phi) / M_PI);
-}
-
 Sphere::Sphere(Point const &pos, double radius)
 :
     position(pos),

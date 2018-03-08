@@ -433,6 +433,8 @@ material.h
 /mnt/c/Users/Thomas/Documents/Projecten/computer-graphics/Hollander_Vlasenko_Raytracer_1/Code/material.h
 ray.h
 /mnt/c/Users/Thomas/Documents/Projecten/computer-graphics/Hollander_Vlasenko_Raytracer_1/Code/ray.h
+iostream
+-
 cmath
 -
 limits

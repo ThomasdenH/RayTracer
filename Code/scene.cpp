@@ -5,13 +5,15 @@
 #include "material.h"
 #include "ray.h"
 
+#include <iostream>
 #include <cmath>
 #include <limits>
 
 using namespace std;
 
-Color Scene::trace(Ray const &ray)
-{
+#define MAX_PASSES 2
+
+Color Scene::trace(Ray const &ray, unsigned depth) {
     // Find hit object and distance
     Hit min_hit(numeric_limits<double>::infinity(), Vector());
     ObjectPtr obj = nullptr;
@@ -56,6 +58,7 @@ Color Scene::trace(Ray const &ray)
     // Add ambient lighting
     Color resultColor = color * material.ka;
 
+    Vector R = (2 * (N.dot(V)) * N - V).normalized();
     for (unsigned i = 0; i < getNumLights(); i++) {
         Vector L = (lights[i]->position - hit).normalized();
         Ray ray = Ray(lights[i]->position, -1 * L);
@@ -63,12 +66,18 @@ Color Scene::trace(Ray const &ray)
         if (!this->shadows || !this->inShadow(ray, objectIndex)) {
             // Add diffuse lighting
             resultColor += color * material.kd * max(0.0, L.dot(N));
-
             // Add specular lighting
-            Vector R = (2 * (N.dot(L)) * N - L).normalized();
-            resultColor += pow(max(0.0, R.dot(V)), 50.0) * material.ks;
+            resultColor += lights[i]->color * pow(max(0.0, L.dot(R)), material.n) * material.ks;
         }
     }
+
+    // The view ray reflected against the surface normal
+    /*if (depth < MAX_PASSES) {
+        // Add reflections
+        Ray reflectRay = Ray(hit, -R);
+        Color reflectionColor = this->trace(reflectRay, depth + 1);
+        resultColor += reflectionColor * material.ks;
+    }*/
 
     return resultColor;
 }

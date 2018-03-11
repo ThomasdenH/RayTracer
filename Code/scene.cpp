@@ -58,7 +58,6 @@ Color Scene::trace(Ray const &ray, unsigned depth) {
     // Add ambient lighting
     Color resultColor = color * material.ka;
 
-    Vector R = (2 * (N.dot(V)) * N - V).normalized();
     for (unsigned i = 0; i < getNumLights(); i++) {
         Vector L = (lights[i]->position - hit).normalized();
         Ray ray = Ray(lights[i]->position, -1 * L);
@@ -67,12 +66,14 @@ Color Scene::trace(Ray const &ray, unsigned depth) {
             // Add diffuse lighting
             resultColor += color * material.kd * max(0.0, L.dot(N));
             // Add specular lighting
-            resultColor += lights[i]->color * pow(max(0.0, L.dot(R)), material.n) * material.ks;
+            Vector R = (2 * (N.dot(L)) * N - L).normalized();
+            resultColor += lights[i]->color * pow(max(0.0, V.dot(R)), material.n) * material.ks;
         }
     }
 
     // The view ray reflected against the surface normal
-    /*if (depth < MAX_PASSES) {
+    /*Vector R = (2 * (N.dot(V)) * N - V).normalized();
+    if (depth < MAX_PASSES) {
         // Add reflections
         Ray reflectRay = Ray(hit, -R);
         Color reflectionColor = this->trace(reflectRay, depth + 1);

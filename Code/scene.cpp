@@ -72,13 +72,13 @@ Color Scene::trace(Ray const &ray, unsigned depth) {
     }
 
     // The view ray reflected against the surface normal
-    /*Vector R = (2 * (N.dot(V)) * N - V).normalized();
+    Vector R = (2 * (N.dot(V)) * N - V).normalized();
     if (depth < MAX_PASSES) {
         // Add reflections
         Ray reflectRay = Ray(hit, -R);
         Color reflectionColor = this->trace(reflectRay, depth + 1);
         resultColor += reflectionColor * material.ks;
-    }*/
+    }
 
     return resultColor;
 }
